@@ -4,7 +4,11 @@ import dotenv from "dotenv";
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
+import userRouter from "./routes/user.routes.js";
+
 const app = express();
+
+app.use("/api/user", userRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
