@@ -21,14 +21,14 @@ const Header = () => {
           />
           <MdSearch className="text-slate-600" />
         </form>
-        <ul className="hidden sm:flex gap-4">
+        <ul className="flex gap-4">
           <Link to="/">
-            <li className="text-slate-700 hover:text-slate-500 hover:cursor-pointer">
+            <li className="text-slate-700 hidden sm:inline-block hover:text-slate-500 hover:cursor-pointer">
               Home
             </li>
           </Link>
           <Link to="/about">
-            <li className="text-slate-700 hover:text-slate-500 hover:cursor-pointer">
+            <li className="text-slate-700 hidden sm:inline-block hover:text-slate-500 hover:cursor-pointer">
               About
             </li>
           </Link>
