@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const SignUp = () => {
   return (
-    <div className="mt-6 p-3 max-w-lg  mx-auto">
+    <div className="mt-2 p-3 max-w-lg  mx-auto">
       <h1 className="text-3xl text-slate-900 font-semibold text-center">
         Sign Up
       </h1>
@@ -30,7 +30,7 @@ const SignUp = () => {
         />
         <button
           type="submit"
-          className="bg-slate-700 p-2 text-white rounded-lg hover:bg-slate-800 disabled:opacity-80"
+          className="bg-slate-700 p-3 text-white rounded-lg hover:bg-slate-800 disabled:opacity-80"
         >
           SIGN UP
         </button>
