@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ImSpinner3 } from "react-icons/im";
+import OAuth from "../components/OAuth";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -93,6 +94,8 @@ const SignUp = () => {
             "SIGN UP"
           )}
         </button>
+
+        <OAuth />
       </form>
 
       <p className="mt-5">
