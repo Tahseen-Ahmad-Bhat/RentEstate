@@ -1,8 +1,11 @@
 import React from "react";
 import { MdSearch } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
+  const { currentUser } = useSelector((state) => state.user);
+
   return (
     <header className="bg-slate-200 shadow-md">
       <div className="flex items-center justify-between max-w-6xl mx-auto p-3">
@@ -32,10 +35,18 @@ const Header = () => {
               About
             </li>
           </Link>
-          <Link to="/sign-in">
-            <li className="text-slate-700 hover:text-slate-500 hover:cursor-pointer">
-              Sign In
-            </li>
+          <Link to={currentUser ? "/profile" : "/sign-in"}>
+            {currentUser ? (
+              <img
+                className="w-7 h-7 rounded-full object-cover"
+                src={currentUser.avatar}
+                alt="profile"
+              />
+            ) : (
+              <li className="text-slate-700 hover:text-slate-500 hover:cursor-pointer">
+                Sign In
+              </li>
+            )}
           </Link>
         </ul>
       </div>
