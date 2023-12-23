@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 dotenv.config();
+import cookieParser from "cookie-parser";
 const PORT = process.env.PORT || 3000;
 
 import userRouter from "./routes/user.routes.js";
@@ -9,6 +10,8 @@ import authRouter from "./routes/auth.routes.js";
 
 const app = express();
 app.use(express.json());
+
+app.use(cookieParser());
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
