@@ -8,6 +8,7 @@ import {
   signInFailure,
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
+import { notify } from "../util/Notification";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
@@ -22,8 +23,6 @@ const SignIn = () => {
       [e.target.id]: e.target.value,
     });
   };
-
-  // console.log(formdata);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,10 +41,15 @@ const SignIn = () => {
 
       if (data.success === false) {
         dispatch(signInFailure(data.message));
+
+        // Update notification for user
+        notify("error", data.message);
+
         return;
       }
 
       dispatch(signInSuccess(data));
+      notify("success", "User logged in successfully!");
 
       // Clear form inputs
       setFormData({});
@@ -54,6 +58,7 @@ const SignIn = () => {
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error.message));
+      notify("error", error.message);
     }
   };
 

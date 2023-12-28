@@ -16,6 +16,7 @@ import {
   deleteUserFailure,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
+import { notify } from "../util/Notification";
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -85,14 +86,22 @@ const Profile = () => {
 
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
+
+        // Notify user by notification
+        notify("error", data.message);
+
         setProfileUpdateSuccess(false);
         return;
       }
 
       dispatch(updateUserSuccess(data));
+
+      notify("success", "Profile updated successfully!");
+
       setProfileUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
+      notify("error", error.message);
     }
   };
 
@@ -107,12 +116,15 @@ const Profile = () => {
 
       if (data.success === false) {
         dispatch(deleteUserFailure(data.message));
+        notify("error", data.message);
         return;
       }
 
       dispatch(deleteUserSuccess());
+      notify("success", "User deleted successfully!");
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+      notify("error", error.message);
     }
   };
 
@@ -123,15 +135,13 @@ const Profile = () => {
         <input
           ref={fileRef}
           type="file"
-          name=""
-          id=""
           hidden
           accept="image/*"
           onChange={(e) => setFile(e.target.files[0])}
         />
         <img
           onClick={() => fileRef.current.click()}
-          className="h-24 w-24 rounded-full object-cover self-center cursor-pointer"
+          className="h-24 w-24 rounded-full object-fill self-center cursor-pointer"
           src={formData.avatar || currentUser.avatar}
           alt="profile"
         />

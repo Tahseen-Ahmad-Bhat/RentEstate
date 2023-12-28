@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ImSpinner3 } from "react-icons/im";
 import OAuth from "../components/OAuth";
+import { notify } from "../util/Notification";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({});
@@ -16,8 +17,6 @@ const SignUp = () => {
       [e.target.id]: e.target.value,
     });
   };
-
-  // console.log(formdata);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,6 +35,7 @@ const SignUp = () => {
 
       if (data.success === false) {
         setError(data.message);
+        notify("error", data.message);
         setLoading(false);
         return;
       }
@@ -43,14 +43,15 @@ const SignUp = () => {
       setLoading(false);
       setError(null);
       setFormData({});
-      console.log(data);
+
+      notify("success", "User created successfully!");
 
       // On successful sign-up navigate to sign-in page
       navigate("/sign-in");
     } catch (error) {
       setLoading(false);
       setError(error.message);
-      console.log(error.message);
+      notify("error", error.message);
     }
   };
 
