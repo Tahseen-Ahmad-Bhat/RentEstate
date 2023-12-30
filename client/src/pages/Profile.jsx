@@ -14,9 +14,37 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  signOutUserStart,
+  signOutUserSuccess,
+  signOutUserFailure,
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { notify } from "../util/Notification";
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "../util/Validation";
+
+const validateFormData = (formData) => {
+  const { username, email, password } = formData;
+
+  if (username && !validateName(username)) {
+    notify("error", "Please enter a valid name!");
+    return false;
+  }
+  if (email && !validateEmail(email)) {
+    notify("error", "Please enter a valid email!");
+    return false;
+  }
+
+  if (password && !validatePassword(password)) {
+    notify("error", "Please enter a valid password!");
+    return false;
+  }
+
+  return true;
+};
 
 const Profile = () => {
   const { currentUser, loading, error } = useSelector((state) => state.user);
@@ -71,6 +99,9 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate user input before sending request to backend
+    if (!validateFormData(formData)) return;
+
     try {
       dispatch(updateUserStart());
 
@@ -98,6 +129,9 @@ const Profile = () => {
 
       notify("success", "Profile updated successfully!");
 
+      // reset form
+      setFormData({});
+
       setProfileUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
@@ -124,6 +158,29 @@ const Profile = () => {
       notify("success", "User deleted successfully!");
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
+      notify("error", error.message);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      dispatch(signOutUserStart());
+      const res = await fetch("/api/auth/signout");
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(signOutUserFailure(data.message));
+
+        notify("error", data.message);
+
+        return;
+      }
+
+      dispatch(signOutUserSuccess());
+
+      notify("success", data.message);
+    } catch (error) {
+      dispatch(signOutUserFailure(error.message));
       notify("error", error.message);
     }
   };
@@ -198,7 +255,9 @@ const Profile = () => {
         >
           Delete account
         </span>
-        <span className="text-red-700 cursor-pointer"> Sign out</span>
+        <span onClick={handleSignOut} className="text-red-700 cursor-pointer">
+          Sign out
+        </span>
       </div>
 
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
