@@ -21,7 +21,7 @@ const validateFormData = (formData) => {
   }
 
   if (!validatePassword(password)) {
-    notify("error", "Please enter a valid password!");
+    notify("error", "Password has to be 5-15 characters long!!");
     return false;
   }
 
