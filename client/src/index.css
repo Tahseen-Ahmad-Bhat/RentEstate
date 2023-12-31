@@ -5,28 +5,3 @@
 body {
   background-color: rgb(241, 245, 241);
 }
-
-/* css for toast-notification */
-.Toastify__toast {
-  border-radius: 1rem;
-}
-
-/* ================= MEDIA QUERIES (MEDIUM DEVICES) ============ */
-@media screen and (max-width: 1024px) {
-  /* CSS of toast-notification for tablet devices  */
-  .Toastify__toast-container {
-    top: 3rem;
-  }
-}
-
-/* ================= MEDIA QUERIES (SMALL DEVICES) ============ */
-@media screen and (max-width: 600px) {
-  /* CSS of toast-notification for mobile devices  */
-  .Toastify__toast-container {
-    max-width: 80vw;
-    min-width: fit-content;
-    top: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-}
