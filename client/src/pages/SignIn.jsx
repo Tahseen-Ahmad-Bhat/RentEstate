@@ -9,6 +9,29 @@ import {
 } from "../redux/user/userSlice";
 import OAuth from "../components/OAuth";
 import { notify } from "../util/Notification";
+import { validateEmail, validatePassword } from "../util/Validation";
+
+// Function for user validation
+const validateFormData = (formData) => {
+  const { email, password } = formData;
+
+  if (!validateEmail(email)) {
+    notify("error", "Please enter a valid email!");
+    return false;
+  }
+
+  if (!validatePassword(password)) {
+    notify("error", "Please enter a valid password!");
+    return false;
+  }
+
+  return true;
+};
+
+const initialFormData = {
+  email: "",
+  password: "",
+};
 
 const SignIn = () => {
   const [formData, setFormData] = useState({});
