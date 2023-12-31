@@ -3,41 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { ImSpinner3 } from "react-icons/im";
 import OAuth from "../components/OAuth";
 import { notify } from "../util/Notification";
-import {
-  validateEmail,
-  validateName,
-  validatePassword,
-} from "../util/Validation";
-
-const initialFormData = {
-  username: "",
-  email: "",
-  password: "",
-};
-
-// Function for user validation
-const validateFormData = (formData) => {
-  const { username, email, password } = formData;
-
-  if (!validateName(username)) {
-    notify("error", "Please enter a valid name!");
-    return false;
-  }
-  if (!validateEmail(email)) {
-    notify("error", "Please enter a valid email!");
-    return false;
-  }
-
-  if (!validatePassword(password)) {
-    notify("error", "Please enter a valid password!");
-    return false;
-  }
-
-  return true;
-};
 
 const SignUp = () => {
-  const [formData, setFormData] = useState(initialFormData);
+  const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -52,12 +20,6 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    console.log(formData);
-
-    // Validate user input
-    if (!validateFormData(formData)) return;
-
     setLoading(true);
 
     try {
@@ -80,9 +42,9 @@ const SignUp = () => {
 
       setLoading(false);
       setError(null);
-      setFormData(initialFormData);
+      setFormData({});
 
-      notify("success", data.message);
+      notify("success", "User created successfully!");
 
       // On successful sign-up navigate to sign-in page
       navigate("/sign-in");
