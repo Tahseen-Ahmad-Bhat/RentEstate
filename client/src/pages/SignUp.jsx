@@ -29,7 +29,7 @@ const validateFormData = (formData) => {
   }
 
   if (!validatePassword(password)) {
-    notify("error", "Please enter a valid password!");
+    notify("error", "Password has to be 5 to 15 characters long!");
     return false;
   }
 
@@ -37,7 +37,7 @@ const validateFormData = (formData) => {
 };
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initialFormData);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -80,7 +80,7 @@ const SignUp = () => {
 
       setLoading(false);
       setError(null);
-      setFormData({});
+      setFormData(initialFormData);
 
       notify("success", "User created successfully!");
 

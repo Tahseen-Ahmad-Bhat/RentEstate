@@ -21,7 +21,7 @@ const validateFormData = (formData) => {
   }
 
   if (!validatePassword(password)) {
-    notify("error", "Please enter a valid password!");
+    notify("error", "Password has to be 5 to 15 characters long!");
     return false;
   }
 
@@ -34,7 +34,7 @@ const initialFormData = {
 };
 
 const SignIn = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState(initialFormData);
   const { error, loading } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
@@ -49,6 +49,10 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Validate user data
+    if (!validateFormData(formData)) return;
+
     dispatch(signInStart);
 
     try {
@@ -75,7 +79,7 @@ const SignIn = () => {
       notify("success", "User logged in successfully!");
 
       // Clear form inputs
-      setFormData({});
+      setFormData(initialFormData);
 
       // On successful sign-up navigate to sign-in page
       navigate("/");
