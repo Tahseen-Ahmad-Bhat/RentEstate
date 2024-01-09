@@ -1,6 +1,89 @@
-import React from "react";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import React, { useState } from "react";
+import { app } from "../firebase.js";
+import { notify } from "../util/Notification.jsx";
 
 const CreateListing = () => {
+  const [files, setFiles] = useState([]);
+  const [formData, setFormData] = useState({
+    imageUrls: [],
+  });
+  const [imagesUploadError, setImagesUploadError] = useState("");
+  const [uploading, setUploading] = useState(false);
+
+  console.log(formData);
+
+  const handleFileChange = (e) => {
+    setFiles(e.target.files);
+  };
+
+  const handleImageUpload = () => {
+    if (files.length > 0 && files.length + formData.imageUrls.length < 7) {
+      setUploading(true);
+      const promises = [];
+
+      for (let i = 0; i < files.length; i++) {
+        promises.push(storeImage(files[i]));
+      }
+
+      Promise.all(promises)
+        .then((urls) => {
+          setFormData({
+            ...formData,
+            imageUrls: formData.imageUrls.concat(urls),
+          });
+
+          setImagesUploadError(false);
+          setUploading(false);
+        })
+        .catch((error) => {
+          notify("error", "Image upload failed (2 mb max per image)!");
+          setImagesUploadError("Image upload failed (2 mb max per image)!");
+          setUploading(false);
+        });
+    } else {
+      notify("error", "You can only upload 6 images per listing!");
+      setImagesUploadError("You can only upload 6 images per listing!");
+    }
+  };
+
+  const storeImage = async (file) => {
+    return new Promise((resolve, reject) => {
+      const storage = getStorage(app);
+      const fileName = new Date().getTime() + file.name;
+      const storageRef = ref(storage, fileName);
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        },
+        (error) => {
+          reject(error);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          });
+        }
+      );
+    });
+  };
+
+  const handleRemoveImage = (index) => {
+    setFormData({
+      ...formData,
+      imageUrls: formData.imageUrls.filter((_, i) => i !== index),
+    });
+  };
+
   return (
     <main className="p-3 max-w-4xl mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">
@@ -118,16 +201,47 @@ const CreateListing = () => {
           </p>
           <div className="flex gap-4">
             <input
+              onChange={handleFileChange}
               className="p-3 border border-gray-300 rounded w-full"
               type="file"
               id="images"
               accept="image/*"
               multiple
             />
-            <button className="p-3 border text-green-700 border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80">
-              Upload
+            <button
+              type="button"
+              className="p-3 border text-green-700 border-green-700 rounded uppercase hover:shadow-lg disabled:opacity-80"
+              onClick={handleImageUpload}
+            >
+              {uploading ? "Uploading..." : "Upload"}
             </button>
           </div>
+
+          <p className="text-red-700 text-sm">
+            {imagesUploadError && imagesUploadError}
+          </p>
+
+          {formData.imageUrls.length > 0 &&
+            formData.imageUrls.map((url, idx) => (
+              <div
+                className="flex justify-between p-3 border rounded-lg items-center"
+                key={url}
+              >
+                <img
+                  className="w-20 h-20 object-contain items-center rounded-lg"
+                  src={url}
+                  alt="listing image"
+                />
+                <button
+                  type="button"
+                  onClick={() => handleRemoveImage(idx)}
+                  className="text-red-700 p-3 uppercase hover:opacity-75"
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+
           <button className="p-3 bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
             Create Listing
           </button>
