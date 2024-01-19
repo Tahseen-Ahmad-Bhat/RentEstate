@@ -6,7 +6,7 @@ export const notify = (type = "info", msg) => {
   switch (type) {
     case "success":
       toast.success(msg, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 3000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -18,7 +18,7 @@ export const notify = (type = "info", msg) => {
       break;
     case "error":
       toast.error(msg, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -30,7 +30,7 @@ export const notify = (type = "info", msg) => {
       break;
     case "warning":
       toast.warn(msg, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -42,7 +42,7 @@ export const notify = (type = "info", msg) => {
       break;
     default:
       toast.info(msg, {
-        position: "top-center",
+        position: "top-right",
         autoClose: 2000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -60,7 +60,7 @@ const NotificationContainer = () => {
       <ToastContainer
         className="notification__container"
         theme="colored"
-        position="top-center"
+        position="top-right"
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
