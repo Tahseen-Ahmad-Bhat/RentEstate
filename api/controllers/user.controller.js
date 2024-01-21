@@ -1,3 +1,4 @@
+import ListingItem from "../models/listingItem.model.js";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import bcrypt from "bcrypt";
@@ -52,6 +53,24 @@ export const deleteUser = async (req, res, next) => {
       .clearCookie("access_token")
       .status(200)
       .json({ message: "Account deleted successfully!" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserListings = async (req, res, next) => {
+  try {
+    const id = req.params.id;
+
+    if (req.user.id !== id) {
+      return next(
+        errorHandler(401, "Authorize yourself to access your listings!")
+      );
+    }
+
+    const listings = await ListingItem.find({ userRef: id });
+
+    res.status(200).json(listings);
   } catch (error) {
     next(error);
   }
