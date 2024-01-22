@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import NotificationContainer from "./util/Notification";
 import CreateListing from "./pages/CreateListing";
+import Listings from "./pages/Listings";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
+          <Route path="/listings" element={<Listings />} />
         </Route>
       </Routes>
 

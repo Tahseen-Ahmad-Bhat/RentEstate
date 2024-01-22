@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import {
   getDownloadURL,
@@ -58,6 +58,7 @@ const Profile = () => {
   const [profileUpdateSuccess, setProfileUpdateSuccess] = useState(false);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (file) {
@@ -264,6 +265,13 @@ const Profile = () => {
           Sign out
         </span>
       </div>
+
+      <p
+        className="mt-5 text-green-600 flex items-center justify-center cursor-pointer hover:opacity-70"
+        onClick={() => navigate("/listings")}
+      >
+        Show Listings
+      </p>
 
       <p className="text-red-700 mt-5">{error ? error : ""}</p>
       <p className="text-green-700">
