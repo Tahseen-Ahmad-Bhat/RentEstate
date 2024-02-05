@@ -68,7 +68,9 @@ export const getUserListings = async (req, res, next) => {
       );
     }
 
-    const listings = await ListingItem.find({ userRef: id });
+    const listings = await ListingItem.find({ userRef: id }).sort({
+      createdAt: "desc",
+    });
 
     res.status(200).json(listings);
   } catch (error) {
