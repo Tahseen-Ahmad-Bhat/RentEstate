@@ -78,7 +78,7 @@ const Listings = () => {
                 {item.name}
               </p>
             </Link>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center lg:gap-2 lg:flex-row justify-center">
               <button
                 onClick={() => handleDeleteListingItem(item._id)}
                 type="button"
@@ -86,12 +86,14 @@ const Listings = () => {
               >
                 Delete
               </button>
-              <button
-                type="button"
-                className="text-green-700 uppercase px-4 py-2 rounded-lg hover:bg-slate-300"
-              >
-                Edit
-              </button>
+              <Link to={`/update-listing/${item._id}`}>
+                <button
+                  type="button"
+                  className="text-green-700 uppercase px-4 py-2 rounded-lg hover:bg-slate-300"
+                >
+                  Edit
+                </button>
+              </Link>
             </div>
           </div>
         ))

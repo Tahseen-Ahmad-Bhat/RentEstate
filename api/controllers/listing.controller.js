@@ -16,7 +16,7 @@ export const deleteListingItem = async (req, res, next) => {
 
     const itemToBeDeleted = await ListingItem.findById(id);
 
-    console.log(req.user);
+    // console.log(req.user);
 
     if (!itemToBeDeleted) {
       next(errorHandler(404, "Listing item not found!"));
@@ -62,6 +62,19 @@ export const updateListingItem = async (req, res, next) => {
       message: "Listing item updated successfully!",
       updatedListingItem,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getListingItem = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const listingItem = await ListingItem.findById(id);
+
+    if (!listingItem) return next(errorHandler(404, "Listing item not found!"));
+
+    res.status(200).json(listingItem);
   } catch (error) {
     next(error);
   }
