@@ -65,7 +65,7 @@ const Listings = () => {
             className="flex space-x-6 w-full items-center justify-between border p-5 rounded-lg shadow-md hover:scale-105 transition-all duration-500"
           >
             <Link
-              to={`/listing/${item._id}`}
+              to={`/listingItem/${item._id}`}
               className="flex items-center justify-between flex-1 space-x-4"
             >
               <img

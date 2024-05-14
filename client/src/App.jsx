@@ -11,6 +11,7 @@ import NotificationContainer from "./util/Notification";
 import CreateListing from "./pages/CreateListing";
 import Listings from "./pages/Listings";
 import UpdateListing from "./pages/UpdateListing";
+import ListingItem from "./pages/ListingItem";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="sign-up" element={<SignUp />} />
         <Route path="/about" element={<About />} />
+        <Route path="/listingItem/:id" element={<ListingItem />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
           <Route path="/create-listing" element={<CreateListing />} />
