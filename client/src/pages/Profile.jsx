@@ -109,7 +109,7 @@ const Profile = () => {
       dispatch(updateUserStart());
 
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },

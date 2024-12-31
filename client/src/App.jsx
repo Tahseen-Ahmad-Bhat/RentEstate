@@ -10,8 +10,9 @@ import PrivateRoute from "./components/PrivateRoute";
 import NotificationContainer from "./util/Notification";
 import CreateListing from "./pages/CreateListing";
 import Listings from "./pages/Listings";
-import UpdateListing from "./pages/UpdateListing";
+
 import ListingItem from "./pages/ListingItem";
+import UpdateListingItem from "./pages/UpdateListingItem";
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const App = () => {
           <Route path="/listings" element={<Listings />} />
           <Route
             path="/update-listing/:listingItemId"
-            element={<UpdateListing />}
+            element={<UpdateListingItem />}
           />
         </Route>
       </Routes>

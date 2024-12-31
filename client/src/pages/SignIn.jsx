@@ -133,7 +133,7 @@ const SignIn = () => {
         </Link>
       </p>
 
-      {/* Rendet error if there is any */}
+      {/* Render error if there is any */}
       {error && <p className="mt-3 text-red-500">{error}</p>}
     </div>
   );

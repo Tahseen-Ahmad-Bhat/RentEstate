@@ -10,7 +10,7 @@ import { notify } from "../util/Notification.jsx";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
-const CreateListing = () => {
+const UpdateListingItem = () => {
   const { currentUser } = useSelector((state) => state.user);
 
   const navigate = useNavigate();
@@ -170,7 +170,7 @@ const CreateListing = () => {
       notify("success", "Listing Item updated successfully!");
 
       console.log(data);
-      navigate(`/listing/${data.updatedListingItem._id}`);
+      navigate(`/listingItem/${data.updatedListingItem._id}`);
     } catch (error) {
       setFormSubmitError(error.message);
       setSubmittingForm(false);
@@ -190,7 +190,7 @@ const CreateListing = () => {
           return;
         }
 
-        setFormData(data);
+        setFormData({ ...data });
       } catch (error) {
         notify("error", error.message);
       }
@@ -422,4 +422,4 @@ const CreateListing = () => {
   );
 };
 
-export default CreateListing;
+export default UpdateListingItem;

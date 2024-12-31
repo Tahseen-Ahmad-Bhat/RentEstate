@@ -62,22 +62,24 @@ const Listings = () => {
         userListings.map((item) => (
           <div
             key={item._id}
-            className="flex space-x-6 w-full items-center justify-between border p-5 rounded-lg shadow-md hover:scale-105 transition-all duration-500"
+            className="flex space-x-6 w-full items-center justify-between border p-2 rounded-lg shadow-md transition-all duration-500 "
           >
-            <Link
-              to={`/listingItem/${item._id}`}
-              className="flex items-center justify-between flex-1 space-x-4"
-            >
-              <img
-                className="w-16 h-16 object-cover"
-                src={item.imageUrls[0]}
-                alt={item.name}
-              />
+            <div className="rounded-lg p-3 hover:bg-slate-300 flex-1">
+              <Link
+                to={`/listingItem/${item._id}`}
+                className="flex items-center justify-between flex-1 space-x-4  "
+              >
+                <img
+                  className="w-16 h-16 object-cover"
+                  src={item.imageUrls[0]}
+                  alt={item.name}
+                />
 
-              <p className="flex-1 text-slate-700 font-semibold truncate">
-                {item.name}
-              </p>
-            </Link>
+                <p className="flex-1 text-slate-700 font-semibold truncate">
+                  {item.name}
+                </p>
+              </Link>
+            </div>
             <div className="flex flex-col items-center lg:gap-2 lg:flex-row justify-center">
               <button
                 onClick={() => handleDeleteListingItem(item._id)}
