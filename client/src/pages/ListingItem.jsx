@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { notify } from "../util/Notification";
+import { useSelector } from "react-redux";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
@@ -17,6 +18,7 @@ import {
   FaParking,
   FaShare,
 } from "react-icons/fa";
+import Contact from "../components/Contact";
 
 const ListingItem = () => {
   SwiperCore.use([Navigation]);
@@ -24,6 +26,9 @@ const ListingItem = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [contact, setContact] = useState(false);
+
+  const { currentUser } = useSelector((state) => state.user);
 
   const params = useParams();
 
@@ -54,7 +59,7 @@ const ListingItem = () => {
   }, [params.id]);
 
   return (
-    <main>
+    <main className="relative">
       {loading && (
         <p className="flex items-center justify-center">
           <AiOutlineLoading3Quarters className="my-24 text-5xl animate-spin" />
@@ -81,7 +86,7 @@ const ListingItem = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="fixed top-[13%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer">
+          <div className="absolute top-[3%] right-[3%] z-10 border rounded-full w-12 h-12 flex justify-center items-center bg-slate-100 cursor-pointer">
             <FaShare
               className="text-slate-500"
               onClick={() => {
@@ -94,7 +99,7 @@ const ListingItem = () => {
             />
           </div>
           {copied && (
-            <p className="fixed top-[23%] right-[5%] bg-slate-100 z-10 rounded-md p-2">
+            <p className="absolute top-[13%] right-[5%] bg-slate-100 z-10 rounded-md p-2">
               Link Copied!
             </p>
           )}
@@ -135,8 +140,8 @@ const ListingItem = () => {
               <li className="flex items-center gap-3 whitespace-nowrap">
                 <FaBath size={20} />
                 {listingItem.bathrooms > 1
-                  ? `${listingItem.bathrooms} beds`
-                  : `${listingItem.bathrooms} bed`}
+                  ? `${listingItem.bathrooms} baths`
+                  : `${listingItem.bathrooms} bath`}
               </li>
               <li className="flex items-center gap-3 whitespace-nowrap">
                 <FaParking size={20} />
@@ -147,6 +152,17 @@ const ListingItem = () => {
                 {listingItem.furnished ? `Furnished` : `Unfurnished`}
               </li>
             </ul>
+            {currentUser &&
+              listingItem.userRef !== currentUser._id &&
+              !contact && (
+                <button
+                  onClick={() => setContact(true)}
+                  className="bg-slate-700 text-white rounded-lg uppercase hover:opacity-95 p-3"
+                >
+                  Contact Landlord
+                </button>
+              )}
+            {contact && <Contact listingItem={listingItem} />}
           </div>
         </>
       )}
